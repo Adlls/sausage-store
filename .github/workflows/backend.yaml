@@ -46,7 +46,7 @@ jobs:
       run: mvn package -Dversion.application=${APP_VERSION}.${GITHUB_SHA:0:7}
 
     - name: Upload jar
-      uses: action/upload-artifact@vb4
+      uses: actions/upload-artifact@v4
       with:
         name: backend-archive
         path: backend/target/*.jar

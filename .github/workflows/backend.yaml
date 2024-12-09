@@ -29,3 +29,13 @@ jobs:
     - name: Test
       working-directory: backend        
       run: mvn test
+
+    - name: Checkstyle
+      working-directory: backend
+      continue-on-error: true
+      run: mvn checkstyle:checkstyle
+
+    - name: SpotBugs
+      working-directory: backend
+      run: mvn spotbugs:check
+  

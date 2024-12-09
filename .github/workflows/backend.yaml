@@ -26,7 +26,7 @@ jobs:
 
     - name: Build
       working-directory: backend        
-      run: mvn package -DskipTests=true -X
+      run: mvn package -DskipTests=true -X -Dversion.application=${APP_VERSION}.${GITHUB_SHA:0:7}
 
     - name: Test
       working-directory: backend        
@@ -41,16 +41,29 @@ jobs:
       run: mvn spotbugs:check
       continue-on-error: true
 
-    - name: Create jar
-      working-directory: backend
-      run: mvn package -Dversion.application=${APP_VERSION}.${GITHUB_SHA:0:7}
-
     - name: Upload jar
       uses: actions/upload-artifact@v4
       with:
         name: backend-archive
         path: backend/target/*.jar
 
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: backend/target/surefire-reports/
+    
+    - name: Upload Checkstyle Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: checkstyle-report
+        path: backend/target/checkstyle-result.xml
+
+    - name: Upload SpotBugs Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: spotbugs-report
+        path: backend/target/spotbugsXml.xml    
 
 
   
